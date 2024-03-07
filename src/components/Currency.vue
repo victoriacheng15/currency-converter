@@ -20,7 +20,7 @@ const getExchangeRate = async () => {
   try {
     const response = await fetch(`${BASE_URL}?base_currency=${base.value}&currencies=${currencies.value}`, {
       headers: {
-        "apikey": API_KEY
+        "apikey": `${API_KEY}`
       }
     })
     const data = await response.json()
