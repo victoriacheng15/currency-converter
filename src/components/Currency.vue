@@ -9,6 +9,7 @@ import { BASE_URL, API_KEY } from "../utils";
 const base = ref("CAD")
 const currencies = ref<string[]>([])
 const exchangeRate = ref<Record<string, string>>({})
+const enterAmount = ref(10)
 
 const filteredList = computed(() => currencyList.filter(({ code }) => code !== base.value))
 
@@ -33,8 +34,9 @@ const getExchangeRate = async () => {
   }
 }
 
-function formattedRate(rate: string) {
-  return Number(rate).toFixed(2)
+function displayExchangeValue(currency: string) {
+  const calculatedValue = enterAmount.value * Number(exchangeRate.value[currency])
+  return Math.floor(calculatedValue * 100) / 100
 }
 </script>
 
@@ -49,7 +51,7 @@ function formattedRate(rate: string) {
     <template v-slot:secondLabel>
       <LabelText forElement="selectCurrencies" text="The currencies I want:" />
       <select @click="getExchangeRate" id="selectCurrencies" v-model="currencies"
-        :class="css({ p: '2', bg: 'gray.200', h: '200px' })" multiple>
+        :class="css({ p: '2', bg: 'gray.200', h: '250px' })" multiple>
         <option v-for="{ code, name } in filteredList" :value="code" :key="name" :class="css({ py: '1' })">
           {{ name }} ({{ code }})
         </option>
@@ -57,27 +59,27 @@ function formattedRate(rate: string) {
     </template>
   </SectionWrapper>
   <SectionWrapper>
-    <h2>You selected {{ base }}</h2>
-    <div>
+    <div :class="css({ display: 'flex', alignItems: 'center' })">
       <label :class="css({ srOnly: true })" for="amountInput">Enter Amount</label>
-      <span>{{ base }}</span>
-      <span :class="css({ mx: '1' })">$</span>
-      <input id="amountInput" type="number" placeholder="Enter amount"
-        :class="css({ p: '1', bg: 'red.100', borderRadius: 'lg', textAlign: 'right' })" role="textbox" />
+      <span :class="css({ flexBasis: '30px' })">{{ base }}</span>
+      <span :class="css({ mx: '1', fontSize: 'lg' })">$</span>
+      <input id="amountInput" type="number" placeholder="Enter amount" v-model="enterAmount"
+        :class="css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', textAlign: 'right', flexGrow: '1' })"
+        role="textbox" />
     </div>
 
     <template v-slot:secondLabel>
-      <h2>Selected Currencies</h2>
       <ul :class="css({ display: 'grid', gap: '2' })">
         <li v-for="currency in currencies" :key="currency"
           :class="css({ display: 'flex', flexDir: 'column', gap: '1' })">
-          <div>
-            <span :class="css({ flexBasis: '50px' })">{{ currency }}</span>
-            <span :class="css({ mx: '1' })">$</span>
-            <input type="number" value="1"
-              :class="css({ p: '1', bg: 'red.100', borderRadius: 'lg', flexGrow: '1', textAlign: 'right' })" disabled />
+          <div :class="css({ display: 'flex', alignItems: 'center' })">
+            <span :class="css({ flexBasis: '30px' })">{{ currency }}</span>
+            <span :class="css({ mx: '1', fontSize: 'lg' })">$</span>
+            <input type="number" :value="displayExchangeValue(currency)"
+              :class="css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', flexGrow: '1', textAlign: 'right' })"
+              disabled />
           </div>
-          <span :class="css({ textAlign: 'right', color: 'gray.500' })">Rate: {{ formattedRate(exchangeRate[currency])
+          <span :class="css({ textAlign: 'right', color: 'gray.500' })">Rate: {{ exchangeRate[currency]
             }}</span>
         </li>
       </ul>
