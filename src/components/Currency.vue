@@ -4,7 +4,7 @@ import { ref, computed, watch } from "vue"
 import SectionWrapper from "./SectionWrapper.vue";
 import LabelText from "./LabelText.vue"
 import { currencies as currencyList } from '../utils';
-import { BASE_URL } from "../utils";
+import { BASE_URL, API_KEY } from "../utils";
 
 const base = ref("CAD")
 const currencies = ref<string[]>([])
@@ -18,8 +18,13 @@ watch(base, (newBase) => {
 
 const getExchangeRate = async () => {
   try {
-    const response = await fetch(`${BASE_URL}&base_currency=${base.value}&currencies=${currencies.value}`)
+    const response = await fetch(`${BASE_URL}?base_currency=${base.value}&currencies=${currencies.value}`, {
+      headers: {
+        "apikey": API_KEY
+      }
+    })
     const data = await response.json()
+
     if (response.ok) {
       exchangeRate.value = data.data
     }
