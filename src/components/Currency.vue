@@ -1,44 +1,29 @@
 <script setup lang="ts">
 import { css } from "../../styled-system/css"
-import { ref, computed, watch } from "vue"
+import { watch } from "vue"
+import { useFetchRate } from "../composables/useFetchRate";
 import SectionWrapper from "./SectionWrapper.vue";
 import LabelText from "./LabelText.vue"
-import { currencies as currencyList } from '../utils';
-import { BASE_URL, API_KEY } from "../utils";
 import DisplayCurrency from "./DisplayCurrency.vue";
 
-const base = ref("CAD")
-const currencies = ref<string[]>([])
-const exchangeRate = ref<Record<string, string>>({})
-const enterAmount = ref(10)
+const {
+  base,
+  currencies,
+  exchangeRate,
+  errorMsg,
+  currencyList,
+  filteredList,
+  getExchangeRate,
+  enterAmount,
+  displayExchangeRate
+} = useFetchRate()
 
-const filteredList = computed(() => currencyList.filter(({ code }) => code !== base.value))
 
 watch(base, (newBase) => {
   currencies.value = currencies.value.filter((code) => code !== newBase);
 });
 
-const getExchangeRate = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}?base_currency=${base.value}&currencies=${currencies.value}`, {
-      headers: {
-        "apikey": `${API_KEY}`
-      }
-    })
-    const data = await response.json()
-
-    if (response.ok) {
-      exchangeRate.value = data.data
-    }
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-function displayExchangeValue(currency: string) {
-  const calculatedValue = enterAmount.value * Number(exchangeRate.value[currency])
-  return Math.floor(calculatedValue * 100) / 100
-}
+const inputStyles = css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', textAlign: 'right', flexGrow: '1' })
 </script>
 
 <template>
@@ -63,20 +48,18 @@ function displayExchangeValue(currency: string) {
     <div :class="css({ display: 'flex', alignItems: 'center' })">
       <label :class="css({ srOnly: true })" for="amountInput">Enter Amount</label>
       <DisplayCurrency :displayCurrency="base" />
-      <input id="amountInput" type="number" placeholder="Enter amount" v-model="enterAmount"
-        :class="css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', textAlign: 'right', flexGrow: '1' })"
+      <input id="amountInput" type="number" placeholder="Enter amount" v-model="enterAmount" :class="inputStyles"
         role="textbox" />
     </div>
 
     <template v-slot:secondLabel>
-      <ul :class="css({ display: 'grid', gap: '2' })">
+      <p v-if="errorMsg">{{ errorMsg }}</p>
+      <ul v-else :class="css({ display: 'grid', gap: '2' })">
         <li v-for="currency in currencies" :key="currency"
           :class="css({ display: 'flex', flexDir: 'column', gap: '1' })">
           <div :class="css({ display: 'flex', alignItems: 'center' })">
             <DisplayCurrency :displayCurrency="currency" />
-            <input type="number" :value="displayExchangeValue(currency).toFixed(2)"
-              :class="css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', flexGrow: '1', textAlign: 'right' })"
-              disabled />
+            <input type="number" :value="displayExchangeRate(currency).toFixed(2)" :class="inputStyles" disabled />
           </div>
           <span v-if="exchangeRate[currency]" :class="css({ textAlign: 'right', color: 'gray.500' })">Rate: {{
       exchangeRate[currency] }}</span>
@@ -84,4 +67,4 @@ function displayExchangeValue(currency: string) {
       </ul>
     </template>
   </SectionWrapper>
-</template>
+</template>../composables/useFetchRate
