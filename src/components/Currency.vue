@@ -5,6 +5,7 @@ import SectionWrapper from "./SectionWrapper.vue";
 import LabelText from "./LabelText.vue"
 import { currencies as currencyList } from '../utils';
 import { BASE_URL, API_KEY } from "../utils";
+import DisplayCurrency from "./DisplayCurrency.vue";
 
 const base = ref("CAD")
 const currencies = ref<string[]>([])
@@ -61,8 +62,7 @@ function displayExchangeValue(currency: string) {
   <SectionWrapper>
     <div :class="css({ display: 'flex', alignItems: 'center' })">
       <label :class="css({ srOnly: true })" for="amountInput">Enter Amount</label>
-      <span :class="css({ flexBasis: '30px' })">{{ base }}</span>
-      <span :class="css({ mx: '1', fontSize: 'lg' })">$</span>
+      <DisplayCurrency :displayCurrency="base" />
       <input id="amountInput" type="number" placeholder="Enter amount" v-model="enterAmount"
         :class="css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', textAlign: 'right', flexGrow: '1' })"
         role="textbox" />
@@ -73,14 +73,13 @@ function displayExchangeValue(currency: string) {
         <li v-for="currency in currencies" :key="currency"
           :class="css({ display: 'flex', flexDir: 'column', gap: '1' })">
           <div :class="css({ display: 'flex', alignItems: 'center' })">
-            <span :class="css({ flexBasis: '30px' })">{{ currency }}</span>
-            <span :class="css({ mx: '1', fontSize: 'lg' })">$</span>
-            <input type="number" :value="displayExchangeValue(currency)"
+            <DisplayCurrency :displayCurrency="currency" />
+            <input type="number" :value="displayExchangeValue(currency).toFixed(2)"
               :class="css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize: 'lg', flexGrow: '1', textAlign: 'right' })"
               disabled />
           </div>
-          <span :class="css({ textAlign: 'right', color: 'gray.500' })">Rate: {{ exchangeRate[currency]
-            }}</span>
+          <span v-if="exchangeRate[currency]" :class="css({ textAlign: 'right', color: 'gray.500' })">Rate: {{
+      exchangeRate[currency] }}</span>
         </li>
       </ul>
     </template>
