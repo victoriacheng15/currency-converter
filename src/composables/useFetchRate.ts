@@ -7,7 +7,7 @@ export function useFetchRate() {
   const currencies = ref<string[]>([])
   const exchangeRate = ref<Record<string, string>>({})
   const errorMsg = ref("")
-  const enterAmount = ref(10)
+  const enterAmount = ref(100)
 
   const filteredList = computed(() => currencyList.filter(({ code }) => code !== base.value))
 
