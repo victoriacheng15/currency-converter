@@ -9,7 +9,7 @@ export function useFetchRate() {
   const errorMsg = ref("")
   const enterAmount = ref(100)
 
-  const filteredList = computed(() => currencyList.filter(({ code }) => code !== base.value))
+  const filterCurrencyList = computed(() => currencyList.filter(({ code }) => code !== base.value))
 
   const getExchangeRate = async () => {
     try {
@@ -42,7 +42,7 @@ export function useFetchRate() {
     exchangeRate,
     errorMsg,
     currencyList,
-    filteredList,
+    filterCurrencyList,
     getExchangeRate,
     enterAmount,
     displayExchangeRate

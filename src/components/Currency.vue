@@ -12,7 +12,7 @@ const {
   exchangeRate,
   errorMsg,
   currencyList,
-  filteredList,
+  filterCurrencyList,
   getExchangeRate,
   enterAmount,
   displayExchangeRate
@@ -38,7 +38,7 @@ const inputStyles = css({ p: '1.5', borderRadius: 'lg', bg: 'gray.300', fontSize
       <LabelText forElement="selectCurrencies" text="The currencies I want:" />
       <select @click="getExchangeRate" id="selectCurrencies" v-model="currencies"
         :class="css({ p: '2', bg: 'gray.200', h: '250px' })" multiple>
-        <option v-for="{ code, name } in filteredList" :value="code" :key="name" :class="css({ py: '1' })">
+        <option v-for="{ code, name } in filterCurrencyList" :value="code" :key="name" :class="css({ py: '1' })">
           {{ name }} ({{ code }})
         </option>
       </select>
