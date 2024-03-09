@@ -6,7 +6,7 @@ const styles = css({ display: 'grid', gap: '2', w: '40%' })
 
 <template>
   <section
-    :class="css({ p: '4', display: 'flex', gap: '20', justifyContent: 'center', alignItems: 'flex-start', borderWidth: '2', borderRadius: 'md', borderColor: 'gray.400' })">
+    :class="css({ p: '4', display: 'flex', gap: '20', justifyContent: 'center', alignItems: 'flex-start', borderWidth: '2', borderRadius: 'md', borderColor: 'gray.400', mb: '6' })">
     <div :class="styles">
       <slot></slot>
     </div>
