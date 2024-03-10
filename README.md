@@ -1,18 +1,42 @@
-# Vue 3 + TypeScript + Vite
+# Simple Plainly Currency Converter
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+With this application, you can choose your base currency and select the specific currencies you wish to convert it into. For instance, you can convert Canadian Dollars (CAD) to EURO, USD, and more. Simplify your currency conversion experience with our intuitive and efficient app.
 
-## Recommended IDE Setup
+[View the live site here](https://simple-plainly-currency-converter.netlify.app/)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Tech Stacks
 
-## Type Support For `.vue` Imports in TS
+![Vuejs](https://img.shields.io/badge/Vue.js-4FC08D.svg?style=for-the-badge&logo=vuedotjs&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF.svg?style=for-the-badge&logo=Vite&logoColor=white)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Getting Started
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+- Installation
+```bash
+git clone git@github.com:victoriacheng15/currency-converter.git
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+cd currency-converter
+```
+
+- Install packages
+```bash
+npm install 
+```
+
+- Run the app
+```bash
+npm run dev 
+```
+
+## What I have learned
+
+This project aims to familiarize myself with Vue syntax related to loops, conditionals (if and else), and Panda CSS.
+
+Computed: this is to monitor changes in the list of desired currencies, and it specifically re-filters the list each time a new base currency is selected. For instance, when a user opts for `CAD` as the base currency and selects additional currencies for conversion, the computed property ensures that `CAD` is automatically excluded from the updated list.
+
+Watchers: it is to watch changes in the list of the user selected currencies, once the new base currency is changed, it should re-filter user selected currencies.
+
+Slots: the slot functionality provides a designated space for components. If the slot remains empty, nothing will be displayed until new elements or components are added. In certain cases, a component may have more than one slot. The second slot can be named, allowing it to be referenced specifically when needed, providing flexibility in component layout.
+
+## Author
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2.svg?style=for-the-badge&logo=LinkedIn&logoColor=white)](https://www.linkedin.com/in/victoriacheng15/)
