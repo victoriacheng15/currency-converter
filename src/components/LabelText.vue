@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { css } from "../../styled-system/css"
+import { css } from "../../styled-system/css";
 
-const { forElement, text } = defineProps<{ forElement: string, text: string }>()
+const { forElement, text } = defineProps({
+  forElement: { type: String, default: "" },
+  text: { type: String, default: "" },
+});
 </script>
 
 <template>
-  <label :for="forElement" :class="css({ fontSize: 'xl', textAlign: 'center' })">
+  <label
+    :for="forElement"
+    :class="css({ fontSize: 'xl', textAlign: 'center' })"
+  >
     {{ text }}
   </label>
 </template>
