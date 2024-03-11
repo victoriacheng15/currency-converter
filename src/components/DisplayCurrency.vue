@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { css } from "../../styled-system/css"
+import { css } from "../../styled-system/css";
 
-const { displayCurrency } = defineProps<{ displayCurrency: string }>()
+const { displayCurrency } = defineProps({
+  displayCurrency: { type: String, default: "" },
+});
 </script>
 
 <template>
